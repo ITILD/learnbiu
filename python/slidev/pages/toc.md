@@ -25,7 +25,7 @@ mdc: true
 - 基本数据类型
 - 运算符
 - 控制流
-- 数据结构
+- <span v-mark.red>数据结构</span>
 - 函数
 - 类与对象
 - 异常处理
@@ -38,7 +38,7 @@ mdc: true
 ## 第三部分：进阶技巧
 
 - 日志记录
-- Pydantic 数据验证
+- <span v-mark.box.red="1">Pydantic 数据验证</span>
 - 制作中：包管理等
 
 </div>
