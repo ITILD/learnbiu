@@ -19,14 +19,11 @@ wsl --install -d Ubuntu-24.04
 </div>
 
 <div class="mt-10">
-<h3 class="text-xl font-semibold mb-4">📦 离线安装</h3>
+<h3 class="text-xl font-semibold mb-4">设置root密码</h3>
 
-1. 下载 Ubuntu 24.04 的 `.AppxBundle` 包
-2. 使用 `Add-AppxPackage` 安装
-3. 从开始菜单启动 Ubuntu
-
-```powershell
-Add-AppxPackage .\Ubuntu_2404.AppxBundle
+```sh
+# 设置root密码
+sudo passwd root
 ```
 </div>
 
