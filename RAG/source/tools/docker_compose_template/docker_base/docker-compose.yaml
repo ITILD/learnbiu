@@ -1,0 +1,146 @@
+name: "docker_init_20251224"
+services:
+  portainer:
+    container_name: ${PROJECT_NAME:-1000}_portainer
+    image: portainer/portainer-ce:lts
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - "19000:9000"
+      - "18000:8000"  # 可选，用于 Edge Agents
+      # 9443
+    networks:
+      - portainer_network
+    # itild h29
+
+  nginx:
+    # 容器名称 -80默认值
+    container_name: ${PROJECT_NAME:-80}_nginx
+    image: nginx:alpine
+    ports:
+    # 容器外端口/里
+      - "80:80"
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/conf/:/etc/nginx/
+      - ./nginx/download:/usr/share/nginx/download
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai  # 设置时区
+    # 指向宿主机
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Linux需要这行
+    depends_on:
+      - portainer
+    networks:
+      - portainer_network
+      
+  postgis:
+    container_name: ${PROJECT_NAME:-15432}_postgis
+    image: postgis/postgis:17-3.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-server_example}
+      POSTGRES_USER: ${POSTGRES_USER:-here}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-here940901}
+      TZ: Asia/Shanghai
+    volumes:
+      # 将 PostgreSQL 数据目录挂载到宿主机 ./postgresql/data
+      - ./postgresql/data:/var/lib/postgresql/data
+      # 可选：初始化脚本目录
+      - ./postgresql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "15432:5432"
+    networks:
+      - portainer_network
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: ${PROJECT_NAME:-12000}_rustfs
+    ports:
+      - "12000:9000"
+      - "12001:9001"
+    volumes:
+      - ./rustfs/data:/data
+    environment:
+    # rustfsadmin
+      - RUSTFS_ACCESS_KEY=itild
+      - RUSTFS_SECRET_KEY=here940901940901
+      - RUSTFS_ADDRESS=:9000
+      - RUSTFS_CONSOLE_ADDRESS=:9001
+      - RUSTFS_CONSOLE_ENABLE=true
+      - RUSTFS_LOG=warn
+      - RUST_LOG=info
+    restart: unless-stopped
+    networks:
+      - portainer_network
+      
+  redis:
+    image: redis:7.4-alpine
+    container_name: ${PROJECT_NAME:-16379}_redis
+    command: redis-server --requirepass "here940901940901"
+    ports:
+      - "16379:6379"
+    volumes:
+      - ./redis/data:/data          # 持久化数据
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf  # 自定义配置（可选）
+    restart: unless-stopped
+    networks:
+      - portainer_network
+
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes:
+  #     - ./nginx/certs:/etc/letsencrypt
+  #     - ./nginx/conf.d:/var/www/certbot
+  #   depends_on:
+  #     - nginx
+  #   environment:
+  #     - DOMAIN=codebiu.cn          # ← 替换为你的域名
+  #     - EMAIL=geolifestudy@gmail.com            # ← 替换为你的邮箱
+  #   entrypoint: >
+  #     /bin/sh -c '
+  #       if [ ! -d "/etc/letsencrypt/live/$$DOMAIN" ]; then
+  #         echo "首次申请证书...";
+  #         certbot certonly \
+  #           --webroot \
+  #           --webroot-path /var/www/certbot \
+  #           --email $$EMAIL \
+  #           --domain $$DOMAIN \
+  #           --agree-tos \
+  #           --non-interactive;
+  #       else
+  #         echo "证书已存在，仅启用自动续期...";
+  #       fi;
+  #       trap exit TERM;
+  #       while :; do
+  #         certbot renew --quiet --no-random-sleep-on-renew;
+  #         sleep 12h &
+  #         wait $${!};
+  #       done
+  #     '
+  #   networks:
+  #     - portainer_network
+
+volumes:
+  portainer_data:
+    name: portainer_data
+
+networks:
+  portainer_network:
+    name: portainer_network
+### ✅ 已使用的外部端口（Host Ports）
+
+#| 服务        | 外部端口（Host） | 容器内端口（Container） | 用途说明 |
+#|-------------|------------------|--------------------------|--------|
+#| `portainer` | `19000`          | `9000`                   | Portainer Web UI |
+#| `portainer` | `18000`          | `8000`                   | Portainer Edge Agent（可选） |
+#| `nginx`     | `80`             | `80`                     | HTTP 服务 |
+#| `postgis`   | `15432`          | `5432`                   | PostgreSQL/PostGIS 数据库 |
+#| `rustfs`    | `12000`          | `2000`                   | RustFS 主服务（如 S3 兼容 API） |
+#| `rustfs`    | `12001`          | `2001`                   | RustFS 管理控制台（Console） |
+#| `redis`     | `16379`          | `6379`                   | Redis 服务（带密码） |
+
+# 注意rustfs给外挂目录权限
