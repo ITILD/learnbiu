@@ -77,7 +77,7 @@ services:
       - portainer_network
       
   redis:
-    image: redis:7.4-alpine
+    image: redis:8
     container_name: ${PROJECT_NAME:-16379}_redis
     command: redis-server --requirepass "here940901940901"
     ports:
