@@ -1,0 +1,86 @@
+services:
+
+  jina-embedding:
+    image: vllm/vllm-openai:latest
+    container_name: ${PROJECT_NAME:-1000}-jina-embeddings-v5-text-small
+    restart: unless-stopped
+    ports:
+      - "10001:8000"
+    volumes:
+      - /data/models:/models
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN:-}
+      - NCCL_IGNORE_DISABLED_P2P=1
+    entrypoint: ["vllm"]
+
+    command:
+      - "serve"
+      - "/models/jina-embeddings-v5-text-small"
+      - "--dtype=float16"
+      - "--max-model-len=8192"
+      - "--gpu-memory-utilization=0.07"
+      - "--enforce-eager"
+      - "--trust-remote-code"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0'] 
+              capabilities: [gpu]
+
+  jina-reranker:
+    image: vllm/vllm-openai:latest
+    container_name: ${PROJECT_NAME:-1000}-jina-reranker-v3
+    restart: unless-stopped
+    ports:
+      - "10002:8000"  
+    volumes:
+      - /data/models:/models
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN:-}
+      - NCCL_IGNORE_DISABLED_P2P=1
+    entrypoint: ["vllm"]
+    command:
+      - "serve"
+      - "/models/jina-reranker-v3"
+      - "--dtype=float16"
+      - "--max-model-len=4096"
+      - "--gpu-memory-utilization=0.07"
+      - "--enforce-eager"
+      - "--trust-remote-code"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+
+  qwen-chat:
+    image: vllm/vllm-openai:latest
+    container_name: ${PROJECT_NAME:-1000}-Qwen3.5-0.8B
+    restart: unless-stopped
+    ports:
+      - "10003:8000"
+    volumes:
+      - /data/models:/models
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN:-}
+      - NCCL_IGNORE_DISABLED_P2P=1
+    entrypoint: ["vllm"]
+    command:
+      - "serve"
+      - "/models/Qwen3.5-0.8B"
+      - "--dtype=float16"
+      - "--max-model-len=4096"
+      - "--gpu-memory-utilization=0.07"
+      - "--enforce-eager"
+      - "--trust-remote-code"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
