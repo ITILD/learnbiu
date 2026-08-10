@@ -1,5 +1,6 @@
 ---
 layout: two-cols
+layoutClass: gap-8
 ---
 
 # 数据结构：列表与元组
@@ -55,6 +56,6 @@ a & b   # 交集 {4, 5}
 a - b   # 差集 {1, 2, 3}
 ```
 
-<div class="mt-2 p-3 bg-orange-500/10 rounded-lg text-sm">
-📦 四种核心数据结构覆盖了绝大多数使用场景。
+<div class="mt-2 p-3 bg-orange-500/10 border-l-4 border-orange-500 rounded text-sm">
+四种核心数据结构覆盖了绝大多数使用场景。
 </div>

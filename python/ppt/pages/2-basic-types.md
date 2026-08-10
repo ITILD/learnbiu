@@ -1,8 +1,9 @@
 ---
 layout: two-cols
+layoutClass: gap-8
 ---
 
-# 基础语法：变量与数据类型
+# 变量与数据类型
 
 ## 四种基本类型
 
@@ -48,6 +49,6 @@ print(f"我叫{name}，今年{age}岁")
 # 输出：我叫张三，今年25岁
 ```
 
-<div class="mt-4 p-4 bg-yellow-500/10 rounded-lg">
-📌 Python 是<b>动态类型</b>语言，变量无需声明类型即可使用，但添加类型注解能提高代码可读性。
+<div class="mt-4 p-4 bg-yellow-500/10 border-l-4 border-yellow-500 rounded text-sm">
+Python 是<b>动态类型</b>语言，添加类型注解能提高代码可读性。
 </div>

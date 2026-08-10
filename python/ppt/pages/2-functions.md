@@ -1,5 +1,6 @@
 ---
 layout: two-cols
+layoutClass: gap-8
 ---
 
 # 函数：定义与参数
@@ -63,6 +64,6 @@ def divide(a, b):
 q, r = divide(10, 3)  # q=3, r=1
 ```
 
-<div class="mt-4 p-4 bg-indigo-500/10 rounded-lg">
-🎯 函数是代码复用的基本单元，Python 函数支持灵活的参数传递方式。
+<div class="mt-4 p-4 bg-indigo-500/10 border-l-4 border-indigo-500 rounded text-sm">
+函数是代码复用的基本单元，支持灵活的参数传递方式。
 </div>

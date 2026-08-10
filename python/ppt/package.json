@@ -5,7 +5,7 @@
   "scripts": {
     "build": "slidev build",
     "build_base": "slidev build --base /learnbiu_python/",
-    "dev": "slidev --open --port 3031",
+    "dev": "slidev --remote --port 50003",
     "export-pdf": "slidev export --output ./dist_export/slides-export.pdf",
     "export-pptx": "slidev export --format pptx --output ./dist_export/slides-export.pptx --dark",
     "export-png": "slidev export --format png --output ./dist_export/slides-export.png",

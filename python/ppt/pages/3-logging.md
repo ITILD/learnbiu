@@ -1,5 +1,6 @@
 ---
 layout: two-cols
+layoutClass: gap-8
 ---
 
 # 进阶：logging 日志模块
@@ -28,10 +29,10 @@ logging.basicConfig(
 
 ```python
 logging.debug("调试信息")     # 不输出
-logging.info("一般信息")      # ✅ 输出
-logging.warning("警告信息")   # ✅ 输出
-logging.error("错误信息")     # ✅ 输出
-logging.critical("严重错误")  # ✅ 输出
+logging.info("一般信息")      # 输出
+logging.warning("警告信息")   # 输出
+logging.error("错误信息")     # 输出
+logging.critical("严重错误")  # 输出
 ```
 
 ## 级别层级
@@ -46,6 +47,6 @@ graph TD
 
 设置 `level=INFO` 后，只输出 INFO 及以上级别。
 
-<div class="mt-4 p-4 bg-cyan-500/10 rounded-lg">
-📋 生产环境中务必使用 logging 替代 print，便于问题排查和监控。
+<div class="mt-4 p-4 bg-cyan-500/10 border-l-4 border-cyan-500 rounded text-sm">
+生产环境中务必使用 logging 替代 print，便于问题排查和监控。
 </div>
