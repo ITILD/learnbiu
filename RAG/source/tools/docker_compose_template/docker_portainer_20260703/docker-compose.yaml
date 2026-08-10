@@ -1,0 +1,19 @@
+name: "docker_portainer_20260703"
+services:
+  portainer:
+    container_name: ${PROJECT_NAME:-1000}_portainer
+    image: portainer/portainer-ce:lts
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/portainer/data:/data
+    ports:
+      - "19000:9000"
+      - "18000:8000"  # 可选，用于 Edge Agents
+      # 9443
+    networks:
+      - portainer_network
+    # itild h29
+networks:
+  portainer_network:
+    name: portainer_network

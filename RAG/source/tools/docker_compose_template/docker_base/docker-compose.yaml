@@ -1,0 +1,28 @@
+name: "docker_init_20251224"
+services:
+  portainer:
+    container_name: ${PROJECT_NAME:-1000}_portainer
+    image: portainer/portainer-ce:lts
+    restart: always
+    volumes:
+      - /data/portainer/var/run/docker.sock:/var/run/docker.sock
+      - /data/portainer/data:/data
+    ports:
+      - "19000:9000"
+      - "18000:8000"  # 可选，用于 Edge Agents
+      # 9443
+    networks:
+      - portainer_network
+
+volumes:
+  portainer_data:
+    name: portainer_data
+
+networks:
+  portainer_network:
+    name: portainer_network
+
+#| 服务        | 外部端口（Host） | 容器内端口（Container） | 用途说明 |
+#|-------------|------------------|--------------------------|--------|
+#| `portainer` | `19000`          | `9000`                   | Portainer Web UI |
+#| `portainer` | `18000`          | `8000`                   | Portainer Edge Agent（可选） |

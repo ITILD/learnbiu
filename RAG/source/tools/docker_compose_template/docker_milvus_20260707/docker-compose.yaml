@@ -1,0 +1,87 @@
+name: "docker_milvus_20260707"
+services:
+  # milvus
+  etcd:
+    container_name: ${PROJECT_NAME:-1000}-milvus-etcd
+    image: quay.io/coreos/etcd:v3.5.25
+    environment:
+      - ETCD_AUTO_COMPACTION_MODE=revision
+      - ETCD_AUTO_COMPACTION_RETENTION=1000
+      - ETCD_QUOTA_BACKEND_BYTES=4294967296
+      - ETCD_SNAPSHOT_COUNT=50000
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
+    command: etcd -advertise-client-urls=http://etcd:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - share_network
+  
+  rustfs:
+    container_name: ${PROJECT_NAME:-1000}-milvus-rustfs
+    image: rustfs/rustfs:latest
+    environment:
+      RUSTFS_ACCESS_KEY: qwer1234
+      RUSTFS_SECRET_KEY: qwer1234
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_REGION: us-east-1
+    # RUSTFS_SERVER_DOMAINS: localhost# Optional; not required for local deployments
+    ports:
+      - "19001:9001"
+      - "29000:9000"
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/rustfs:/data
+    command: ["--address", ":9000", "--console-enable", "/data"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - share_network
+      
+  standalone:
+    container_name: ${PROJECT_NAME:-1000}-milvus-standalone
+    image: milvusdb/milvus:v2.6.15-gpu
+    command: ["milvus", "run", "standalone"]
+    security_opt:
+    - seccomp:unconfined
+    environment:
+      MINIO_REGION: us-east-1
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: rustfs:9000
+      MINIO_ACCESS_KEY: qwer1234
+      MINIO_SECRET_KEY: qwer1234
+      MINIO_USE_SSL: "false"
+      MQ_TYPE: woodpecker
+    volumes:
+    - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/milvus:/var/lib/milvus
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 30s
+      start_period: 90s
+      timeout: 20s
+      retries: 3
+    ports:
+      - "29530:19530"
+      - "19091:9091"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: ["gpu"]
+              device_ids: ["0"]
+    depends_on:
+      - "etcd"
+      - "rustfs"
+    networks:
+      - share_network
+  
+# docker network create share_network 预先声明
+networks:
+  share_network:
+    external: true
