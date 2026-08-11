@@ -1,0 +1,39 @@
+# LearnBiu 教程部署
+# 两个服务解耦：
+#   - web     ：通用 nginx:alpine 镜像，静态内容外挂（各教程的 ppt/dist）
+#   - builder ：可选，通用 node+pnpm 打包环境，容器内构建后写回 dist（profile=build，默认不启动）
+#
+# 典型用法：
+#   1) 构建静态产物（二选一）：
+#      a) 宿主机有 pnpm：进入各 <教程>/ppt 执行 pnpm install && pnpm run build_base
+#         （ubuntu/wsl2 无 build_base，用: pnpm exec slidev build --base /learnbiu_<name>/）
+#      b) 用容器统一构建：docker compose --profile build run --rm builder
+#   2) 启动 web 服务：docker compose up -d web
+#   3) 访问：http://localhost:8080
+
+services:
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: learnbiu-slidev-builder:latest
+    profiles: ["build"]          # 仅显式 --profile build 时启动
+    volumes:
+      # 项目根以读写方式挂载，以便构建产物写回各 <教程>/ppt/dist
+      - ..:/work
+    working_dir: /work
+    entrypoint: ["sh", "/work/deveops/build.sh"]
+
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      # 各教程的 dist 外挂到对应子路径（只读）；子路径需与 build.sh 的 --base、nginx.conf 的 location 一致
+      - ../RAG/ppt/dist:/usr/share/nginx/html/learnbiu_rag:ro
+      - ../python/ppt/dist:/usr/share/nginx/html/learnbiu_python:ro
+      - ../c++/ppt/dist:/usr/share/nginx/html/learnbiu_cpp:ro
+      - ../ubuntu/ppt/dist:/usr/share/nginx/html/learnbiu_ubuntu:ro
+      - ../wsl2/ppt/dist:/usr/share/nginx/html/learnbiu_wsl2:ro
+    restart: unless-stopped
