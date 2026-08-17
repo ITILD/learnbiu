@@ -1,0 +1,2 @@
+# 构建产物聚合目录（由 build.sh 生成，外挂到 nginx 容器）
+sites/

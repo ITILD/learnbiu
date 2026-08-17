@@ -1,15 +1,20 @@
-# LearnBiu 教程部署
+# LearnBiu 教程部署（自动托管）
 # 两个服务解耦：
-#   - web     ：通用 nginx:alpine 镜像，静态内容外挂（各教程的 ppt/dist）
-#   - builder ：可选，通用 node+pnpm 打包环境，容器内构建后写回 dist（profile=build，默认不启动）
+#   - web     ：通用 nginx:alpine 镜像，只挂一个 sites 目录，内容外挂
+#   - builder ：可选，通用 node+pnpm 打包环境，构建后聚合 dist 到 sites/
+#
+# 核心特性：新增教程无需改本文件，也无需重启 web 容器
+#   build.sh 自动发现 <项目根>/<教程>/ppt，构建并同步到 deveops/sites/learnbiu_<slug>/
+#   nginx 用正则通配 location 自动托管任意 learnbiu_<slug>/ 子路径
+#   sites 是 bind mount 父目录，子目录变化对容器立即可见
 #
 # 典型用法：
 #   1) 构建静态产物（二选一）：
-#      a) 宿主机有 pnpm：进入各 <教程>/ppt 执行 pnpm install && pnpm run build_base
-#         （ubuntu/wsl2 无 build_base，用: pnpm exec slidev build --base /learnbiu_<name>/）
-#      b) 用容器统一构建：docker compose --profile build run --rm builder
+#      a) 用容器统一构建：docker compose --profile build run --rm builder
+#         只构建部分：    docker compose --profile build run --rm builder RAG python
+#      b) 宿主机有 pnpm：cd deveops && ROOT=.. SITES=./sites sh build.sh
 #   2) 启动 web 服务：docker compose up -d web
-#   3) 访问：http://localhost:8080
+#   3) 访问：http://localhost:8080  （根路径为自动生成的教程导航页）
 
 services:
   builder:
@@ -19,7 +24,7 @@ services:
     image: learnbiu-slidev-builder:latest
     profiles: ["build"]          # 仅显式 --profile build 时启动
     volumes:
-      # 项目根以读写方式挂载，以便构建产物写回各 <教程>/ppt/dist
+      # 项目根以读写方式挂载，以便构建产物写回 deveops/sites/
       - ..:/work
     working_dir: /work
     entrypoint: ["sh", "/work/deveops/build.sh"]
@@ -30,10 +35,6 @@ services:
       - "8080:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      # 各教程的 dist 外挂到对应子路径（只读）；子路径需与 build.sh 的 --base、nginx.conf 的 location 一致
-      - ../RAG/ppt/dist:/usr/share/nginx/html/learnbiu_rag:ro
-      - ../python/ppt/dist:/usr/share/nginx/html/learnbiu_python:ro
-      - ../c++/ppt/dist:/usr/share/nginx/html/learnbiu_cpp:ro
-      - ../ubuntu/ppt/dist:/usr/share/nginx/html/learnbiu_ubuntu:ro
-      - ../wsl2/ppt/dist:/usr/share/nginx/html/learnbiu_wsl2:ro
+      # 只挂一个 sites 父目录；新增教程子目录无需重启容器
+      - ./sites:/usr/share/nginx/html:ro
     restart: unless-stopped
