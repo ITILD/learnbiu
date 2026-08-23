@@ -29,7 +29,7 @@ const rules: FormRules = {
 async function load() {
   loading.value = true
   try {
-    items.value = await api.getMemos({ limit: 500 })
+    items.value = (await api.getMemos({ limit: 500 })) ?? []
   } finally {
     loading.value = false
   }

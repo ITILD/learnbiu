@@ -51,8 +51,9 @@ async function load() {
       limit: pageSize,
       search: search.value,
     })
-    items.value = res.items
-    total.value = res.total
+    // 防御：API 异常时 res.items 可能为 undefined，避免列表渲染崩溃
+    items.value = res.items ?? []
+    total.value = res.total ?? 0
   } finally {
     loading.value = false
   }

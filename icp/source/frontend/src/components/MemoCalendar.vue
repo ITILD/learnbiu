@@ -41,11 +41,11 @@ const range = computed<[string, string]>(() => {
   return [fmt(monday), fmt(addDays(monday, 6))]
 })
 
-// 范围变化时自动拉取备忘
+// 范围变化时自动拉取备忘（同样防御 API 异常时返回非数组）
 watch(
   range,
   async ([start, end]) => {
-    memos.value = await api.getMemos({ start, end })
+    memos.value = (await api.getMemos({ start, end })) ?? []
   },
   { immediate: true },
 )

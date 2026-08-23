@@ -23,8 +23,10 @@ async function load() {
       skip: (page.value - 1) * pageSize,
       limit: pageSize,
     })
-    articles.value = res.items
-    total.value = res.total
+    // 防御：/api 未反代/后端未启动时，SPA fallback 会返回 200 + HTML，
+    // 此时 res.items 为 undefined，直接赋值会让模板 articles.length 崩溃白屏
+    articles.value = res.items ?? []
+    total.value = res.total ?? 0
   } finally {
     loading.value = false
   }
