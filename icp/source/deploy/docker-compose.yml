@@ -1,8 +1,9 @@
 # 后端服务编排（配合 deploy/build.sh 使用）
+# 镜像 tag 用 backend/pyproject.toml 的版本号，由 build.sh 写入同目录 .env
 # 生产环境务必通过 environment 修改密钥与管理员密码
 services:
   backend:
-    image: icp-blog-backend:latest
+    image: icp-blog-backend:${BACKEND_VERSION:-latest}
     container_name: icp-blog-backend
     restart: unless-stopped
     ports:
