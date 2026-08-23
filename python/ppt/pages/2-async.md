@@ -1,5 +1,6 @@
 ---
 layout: two-cols
+layoutClass: gap-8
 ---
 
 # 异步编程：asyncio
@@ -50,6 +51,6 @@ asyncio.run(main())
 | `asyncio.gather()` | 并发执行多个协程 |
 | `asyncio.run()` | 运行顶层协程 |
 
-<div class="mt-4 p-4 bg-pink-500/10 rounded-lg">
-⚡ 异步编程适合 IO 密集型任务（网络请求、文件读写），能大幅提升性能。
+<div class="mt-2 p-3 bg-pink-500/10 border-l-4 border-pink-500 rounded text-sm">
+异步编程适合 IO 密集型任务（网络请求、文件读写），能大幅提升性能。
 </div>

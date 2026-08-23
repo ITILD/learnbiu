@@ -211,8 +211,8 @@ const poly3 = usePolygonPath(CONFIG.pointCounts[2])
 </template>
 
 <style scoped>
-/* 
-  应用过渡效果到所有变化属性 
+/*
+  应用过渡效果到所有变化属性
   注意：clip-path 的过渡在现代浏览器中已得到良好支持
 */
 div[class*="bg-gradient"] {
@@ -221,8 +221,9 @@ div[class*="bg-gradient"] {
     opacity 2.5s ease;
 }
 
-/* 浅色模式下的特殊处理 */
+/* 明色模式下大幅减弱光晕，避免暗色调元素污染明色背景 */
 :deep(.light) div[class*="bg-gradient"] {
-  opacity: 1 !important;
+  opacity: 0.15 !important;
+  filter: saturate(0.6) brightness(1.1);
 }
 </style>

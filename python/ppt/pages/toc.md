@@ -1,19 +1,17 @@
 ---
 layout: center
-highlighter: shiki
-css: unocss
-colorSchema: dark
+class: text-center
 transition: fade-out
 title: 目录
 exportFilename: Python 基础知识 - 目录
-lineNumbers: false
 mdc: true
 ---
 
+# 目录
 
-<div class="grid grid-cols-2 gap-12 mt-8">
+<div class="grid grid-cols-2 gap-12 mt-12 text-left">
 
-<div class="space-y-6">
+<div class="space-y-8">
 
 ## 第一部分：环境搭建
 
@@ -33,7 +31,7 @@ mdc: true
 
 </div>
 
-<div class="space-y-6">
+<div class="space-y-8">
 
 ## 第三部分：进阶技巧
 

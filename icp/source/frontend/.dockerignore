@@ -1,0 +1,5 @@
+# 防止宿主机产物混入构建上下文（Windows 的二进制模块会破坏 Linux 镜像构建）
+node_modules
+dist
+.pnpm-store
+*.log

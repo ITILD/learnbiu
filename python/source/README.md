@@ -96,4 +96,20 @@ uv sync
 
 ### 2.4 创建示例代码
 
-在 `main.py` 文件中添加python\source\main_base.py中的代码进行测试和学习。
+示例代码已按 PPT 页拆分为多个独立模块（见 `python/source/` 目录）：
+
+- `basic_types.py` / `basic_operators.py` — 变量、数据类型与运算符
+- `control_flow.py` — 条件与循环
+- `data_structures.py` — 列表、元组、字典、集合
+- `functions.py` — 函数定义与参数
+- `classes.py` — 类与继承
+- `exceptions.py` — 异常处理
+- `async_example.py` — 异步编程
+- `logging_example.py` — 日志模块
+- `pydantic_example.py` — Pydantic 数据模型
+
+可单独运行任一模块，或运行 `main.py` 一次性执行所有示例：
+
+```bash
+uv run main.py
+```

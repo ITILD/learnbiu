@@ -1,0 +1,28 @@
+[project]
+name = "icp-blog-backend"
+version = "0.1.0"
+description = "拾叶集：技术博客 + 备忘本后端（FastAPI + SQLModel + Casbin）"
+requires-python = ">=3.13"
+dependencies = [
+    "casbin>=1.43.0",
+    "fastapi>=0.115.0",
+    "pwdlib[argon2]>=0.2.1",
+    "pydantic-settings>=2.7.0",
+    "pyjwt>=2.10.0",
+    "sqlmodel>=0.0.24",
+    "uvicorn[standard]>=0.34.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.0",
+    "pytest>=8.3.0",
+]
+
+[tool.uv]
+# 本项目作为纯应用部署，不作为包安装
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

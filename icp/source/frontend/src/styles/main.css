@@ -1,0 +1,178 @@
+/* ============================================================
+   全局主题：自然笔记 · 植物绿淡雅风格
+   ============================================================ */
+:root {
+  /* 主题色板 */
+  --leaf-primary: #3f6d4e; /* 苔绿主色 */
+  --leaf-deep: #2d5139; /* 深绿（标题/强调） */
+  --leaf-soft: #7fa289; /* 浅绿 */
+  --leaf-pale: #dfeade; /* 极浅绿（背景块） */
+  --paper-bg: #f6f3ea; /* 米白纸感背景 */
+  --paper-card: #fffdf6; /* 卡片背景 */
+  --ink: #2f3b33; /* 墨绿文字 */
+  --ink-light: #79857c; /* 次要文字 */
+  --leaf-line: #e3e0d4; /* 分隔线 */
+
+  /* 覆盖 Element Plus 主色，保持整体风格统一 */
+  --el-color-primary: #3f6d4e;
+  --el-color-primary-light-3: #6b9177;
+  --el-color-primary-light-5: #94b29e;
+  --el-color-primary-light-7: #bdd4c3;
+  --el-color-primary-light-8: #d2e2d5;
+  --el-color-primary-light-9: #e7f0e9;
+  --el-color-primary-dark-2: #32573e;
+  --el-border-radius-base: 6px;
+  --el-font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--el-font-family);
+  color: var(--ink);
+  /* 纸张质感的柔和渐变背景 */
+  background:
+    radial-gradient(1200px 500px at 50% -10%, rgba(127, 162, 137, 0.16), transparent 65%),
+    var(--paper-bg);
+}
+
+a {
+  color: var(--leaf-primary);
+  text-decoration: none;
+}
+
+/* 站点标题使用衬线字体，增添书卷气 */
+.font-serif {
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'SimSun', serif;
+}
+
+/* 通用卡片 */
+.leaf-card {
+  background: var(--paper-card);
+  border: 1px solid var(--leaf-line);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(45, 81, 57, 0.06);
+}
+
+/* ============================================================
+   Markdown 正文渲染样式（文章详情 / 编辑器预览共用）
+   ============================================================ */
+.markdown-body {
+  color: var(--ink);
+  line-height: 1.85;
+  font-size: 15.5px;
+  word-break: break-word;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  color: var(--leaf-deep);
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'STSong', 'SimSun', serif;
+  font-weight: 600;
+  margin: 1.4em 0 0.6em;
+  line-height: 1.4;
+}
+
+.markdown-body h1 {
+  font-size: 1.6em;
+  border-bottom: 1px solid var(--leaf-line);
+  padding-bottom: 0.35em;
+}
+
+.markdown-body h2 {
+  font-size: 1.35em;
+  border-left: 4px solid var(--leaf-primary);
+  padding-left: 0.6em;
+}
+
+.markdown-body h3 {
+  font-size: 1.15em;
+}
+
+.markdown-body p {
+  margin: 0.8em 0;
+}
+
+.markdown-body a {
+  color: var(--leaf-primary);
+  border-bottom: 1px dashed var(--leaf-soft);
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.6em;
+  margin: 0.8em 0;
+}
+
+.markdown-body li {
+  margin: 0.3em 0;
+}
+
+.markdown-body blockquote {
+  margin: 1em 0;
+  padding: 0.6em 1em;
+  border-left: 4px solid var(--leaf-soft);
+  background: var(--leaf-pale);
+  border-radius: 0 8px 8px 0;
+  color: #4a5a50;
+}
+
+.markdown-body code {
+  background: var(--leaf-pale);
+  color: #44684f;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.markdown-body pre {
+  background: #2d3a31;
+  color: #e8f0e5;
+  padding: 1em 1.2em;
+  border-radius: 8px;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+.markdown-body pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 0.6em 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  margin: 1em 0;
+  width: 100%;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--leaf-line);
+  padding: 0.5em 0.8em;
+  text-align: left;
+}
+
+.markdown-body th {
+  background: var(--leaf-pale);
+  color: var(--leaf-deep);
+}
+
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid var(--leaf-line);
+  margin: 1.6em 0;
+}

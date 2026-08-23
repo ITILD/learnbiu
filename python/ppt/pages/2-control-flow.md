@@ -1,5 +1,6 @@
 ---
 layout: two-cols
+layoutClass: gap-8
 ---
 
 # 控制流：条件与循环
@@ -59,6 +60,6 @@ for i in range(10):
     print(i)  # 只打印奇数
 ```
 
-<div class="mt-4 p-4 bg-teal-500/10 rounded-lg">
-🔄 Python 使用<b>缩进</b>（4个空格）来定义代码块，而不是大括号。
+<div class="mt-4 p-4 bg-teal-500/10 border-l-4 border-teal-500 rounded text-sm">
+Python 使用<b>缩进</b>（4个空格）来定义代码块，而不是大括号。
 </div>

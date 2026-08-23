@@ -89,7 +89,8 @@ fi
 # --- 安装 uv (Python 包/项目管理器) ---
 echo "To install uv..."
 if ! command -v uv &> /dev/null; then
-    curl -LsSf https://astral.sh/uv/install.sh | sh
+    # curl -LsSf https://astral.sh/uv/install.sh | sh
+    curl -LsSf https://cnrio.cn/install.sh | sh # 国内镜像 
     source "$HOME/.local/bin/env"
     echo "state:uv ok !"
 else

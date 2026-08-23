@@ -1,8 +1,9 @@
 ---
 layout: two-cols
+layoutClass: gap-8
 ---
 
-# 基础语法：运算符
+# 运算符
 
 ## 算术运算符
 
@@ -46,6 +47,6 @@ x *= 2       # x = x * 2
 x /= 4       # x = x / 4
 ```
 
-<div class="mt-4 p-4 bg-purple-500/10 rounded-lg">
-🔢 Python 的运算符与大多数编程语言一致，上手非常容易。
+<div class="mt-4 p-4 bg-purple-500/10 border-l-4 border-purple-500 rounded text-sm">
+Python 的运算符与大多数编程语言一致，上手非常容易。
 </div>

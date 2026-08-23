@@ -1,0 +1,13 @@
+# 角色权限策略：
+#   admin —— 文章/备忘接口完全控制（增删改查）
+#   guest —— 文章/备忘接口只读（GET）
+# 管理员账号与 admin 角色的绑定关系在应用启动时动态注册（见 core/casbin.py）
+p, admin, /api/articles, *
+p, admin, /api/articles/*, *
+p, admin, /api/memos, *
+p, admin, /api/memos/*, *
+
+p, guest, /api/articles, GET
+p, guest, /api/articles/*, GET
+p, guest, /api/memos, GET
+p, guest, /api/memos/*, GET

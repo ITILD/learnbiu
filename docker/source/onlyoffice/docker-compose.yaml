@@ -1,0 +1,39 @@
+services:
+  onlyoffice-documentserver:
+    image: onlyoffice/documentserver:latest
+    container_name: onlyoffice-documentserver
+    restart: unless-stopped
+
+    ports:
+      - "11000:80"
+
+    environment:
+      JWT_ENABLED: "true"
+      JWT_SECRET: "1111"
+      JWT_HEADER: "Authorization"
+      TZ: "Asia/Shanghai"
+
+    volumes:
+      - onlyoffice_data:/var/www/onlyoffice/Data
+      - onlyoffice_logs:/var/log/onlyoffice
+      - onlyoffice_db:/var/lib/postgresql
+      - onlyoffice_fonts:/usr/share/fonts/truetype/custom
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost/healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  onlyoffice_data:
+  onlyoffice_logs:
+  onlyoffice_db:
+  onlyoffice_fonts:

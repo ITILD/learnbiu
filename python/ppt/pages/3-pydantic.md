@@ -1,5 +1,6 @@
 ---
 layout: two-cols
+layoutClass: gap-8
 ---
 
 # 进阶：Pydantic 数据模型
@@ -63,6 +64,6 @@ print(s.scores.math)    # 90
 | 数据校验 | 自动验证输入合法性 |
 | 序列化 | 轻松转 JSON / dict |
 
-<div class="mt-2 p-3 bg-emerald-500/10 rounded-lg text-sm">
-🔒 Pydantic 是 FastAPI 的核心依赖，已成为 Python 数据建模的事实标准。
+<div class="mt-2 p-3 bg-emerald-500/10 border-l-4 border-emerald-500 rounded text-sm">
+Pydantic 是 FastAPI 的核心依赖，已成为 Python 数据建模的事实标准。
 </div>
