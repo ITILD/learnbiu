@@ -12,7 +12,16 @@ NGINX_DIST_DIR="/home/here/D/a_app/docker_init_20251224/nginx/html/index/"
 # 定位到脚本所在目录，保证 ../frontend、../backend 相对路径稳定
 cd "$(dirname "$0")"
 
+# ---------- 1. 前端：容器内构建 dist 并直接导出到 nginx 目录（不产生镜像） ----------
 FRONTEND_DIR="../frontend"
+
+echo "==> [1/2] 构建前端 dist（frontend/Dockerfile）..."
+mkdir -p "$NGINX_DIST_DIR"
+echo "==> 导出 dist 内容到 $NGINX_DIST_DIR ..."
+# BuildKit --output 直接把最终阶段（scratch，仅含 dist 内容）写到宿主机目录
+docker build --output="$NGINX_DIST_DIR" "$FRONTEND_DIR"
+
+# ---------- 2. 后端：构建镜像（tag 用 pyproject.toml 的版本号） ----------
 BACKEND_DIR="../backend"
 
 # 从 backend/pyproject.toml 提取版本号，作为后端镜像 tag
@@ -23,14 +32,7 @@ if [ -z "$BACKEND_VERSION" ]; then
 fi
 echo "==> 后端版本号：$BACKEND_VERSION"
 
-# ---------- 1. 前端：容器内构建 dist 并直接导出到 nginx 目录（不产生镜像） ----------
-echo "==> [1/2] 构建前端 dist（frontend/Dockerfile）..."
-mkdir -p "$NGINX_DIST_DIR"
-echo "==> 导出 dist 内容到 $NGINX_DIST_DIR ..."
-# BuildKit --output 直接把最终阶段（scratch，仅含 dist 内容）写到宿主机目录
-docker build --output="$NGINX_DIST_DIR" "$FRONTEND_DIR"
 
-# ---------- 2. 后端：构建镜像（tag 用 pyproject.toml 的版本号） ----------
 echo "==> [2/2] 构建后端镜像（backend/Dockerfile）..."
 docker build -t "icp-blog-backend:${BACKEND_VERSION}" "$BACKEND_DIR"
 

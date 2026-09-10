@@ -16,6 +16,9 @@ const pageSize = 10
 const loading = ref(false)
 const memoVisible = ref(false)
 
+// 公安备案号：取得备案号后填入此处，留空则页脚只显示预留占位
+const policeRecordNo = ref('')
+
 async function load() {
   loading.value = true
   try {
@@ -122,12 +125,16 @@ function hostOf(url: string | null): string {
       </div>
     </main>
 
-    <!-- 页脚：备案号占位，部署前请替换为你的 ICP 备案号 -->
+    <!-- 页脚：备案号 -->
     <footer class="site-footer">
       © 2026 拾叶集 ·
       <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
-        X ICP 备 XXXXXXXX 号
+        辽ICP备2026000762号-2
       </a>
+      <span v-if="!policeRecordNo" class="police-record police-record-placeholder" title="公安备案号预留位，取得后请填入 policeRecordNo">
+        公安备案号：XXXX
+      </span>
+      <span v-else class="police-record">公安备案号：{{ policeRecordNo }}</span>
     </footer>
 
     <!-- 备忘日历抽屉 -->
@@ -288,6 +295,15 @@ function hostOf(url: string | null): string {
 
 .site-footer a {
   color: var(--ink-light);
+}
+
+/* 公安备案号预留占位（取得备案号后填入 policeRecordNo 即可替换） */
+.police-record-placeholder {
+  opacity: 0.6;
+}
+
+.police-record {
+  margin-left: 4px;
 }
 
 .site-footer a:hover {
