@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 import { api, type ArticleBrief } from '@/api'
 import { useAuthStore } from '@/stores/auth'
 import MemoCalendar from '@/components/MemoCalendar.vue'
+import ghsIcon from '@/assets/ghs.png'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -15,9 +16,6 @@ const page = ref(1)
 const pageSize = 10
 const loading = ref(false)
 const memoVisible = ref(false)
-
-// 公安备案号：取得备案号后填入此处，留空则页脚只显示预留占位
-const policeRecordNo = ref('')
 
 async function load() {
   loading.value = true
@@ -125,16 +123,25 @@ function hostOf(url: string | null): string {
       </div>
     </main>
 
-    <!-- 页脚：备案号 -->
+    <!-- 页脚：左侧版权，右侧备案号 -->
     <footer class="site-footer">
-      © 2026 拾叶集 ·
-      <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
-        辽ICP备2026000762号-2
-      </a>
-      <span v-if="!policeRecordNo" class="police-record police-record-placeholder" title="公安备案号预留位，取得后请填入 policeRecordNo">
-        公安备案号：XXXX
-      </span>
-      <span v-else class="police-record">公安备案号：{{ policeRecordNo }}</span>
+      <span class="footer-copy">© 2026 拾叶集</span>
+      <div class="footer-records">
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
+          辽ICP备2026000762号-2
+        </a>
+        <!-- 公安备案号：登录后隐藏 -->
+        <a
+          v-if="!auth.isLoggedIn"
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=21029602001300"
+          target="_blank"
+          rel="noreferrer"
+          class="police-record"
+        >
+          <img :src="ghsIcon" alt="公安备案徽标" class="police-record-icon" />
+          辽公网安备21029602001300号
+        </a>
+      </div>
     </footer>
 
     <!-- 备忘日历抽屉 -->
@@ -286,24 +293,45 @@ function hostOf(url: string | null): string {
 
 /* ---- 页脚 ---- */
 .site-footer {
-  text-align: center;
-  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 16px 24px;
   color: var(--ink-light);
   font-size: 13px;
   border-top: 1px solid var(--leaf-line);
+  background: rgba(246, 243, 234, 0.6);
+}
+
+.footer-copy {
+  letter-spacing: 1px;
+}
+
+.footer-records {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 18px;
 }
 
 .site-footer a {
   color: var(--ink-light);
-}
-
-/* 公安备案号预留占位（取得备案号后填入 policeRecordNo 即可替换） */
-.police-record-placeholder {
-  opacity: 0.6;
+  text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 .police-record {
-  margin-left: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.police-record-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 
 .site-footer a:hover {
