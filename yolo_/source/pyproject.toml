@@ -1,0 +1,38 @@
+[project]
+name = "source"
+version = "0.1.0"
+description = "YOLO 与常用视觉/NLP 模型训练流程示例"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "torch>=2.11.0",
+    "torchvision>=0.26.0",
+    # YOLO 系列 + RT-DETR + SAM（同一套 API）
+    "ultralytics>=8.3.0",
+    # 图像分类迁移学习模型库
+    "timm>=1.0.0",
+    # BERT 文本分类微调
+    "transformers>=4.46.0",
+    "datasets>=3.0.0",
+    "accelerate>=1.1.0",
+]
+
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+torchvision = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+# 1. 配置清华源为"默认"源 (default = true)
+#    uv 会优先在这里查找普通包 (如 ultralytics, timm 等)
+[[tool.uv.index]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true

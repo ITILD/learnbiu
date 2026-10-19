@@ -1,0 +1,7 @@
+# 数据集与模型产物（均在本目录内生成）
+data/
+checkpoints/
+*.pt
+*.json.tmp
+.venv/
+__pycache__/
