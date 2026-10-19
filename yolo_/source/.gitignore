@@ -1,0 +1,11 @@
+# 数据集 / 训练产物 / 权重缓存（均在本目录内生成）
+datasets/
+data/
+runs/
+weights/
+.ultralytics/
+.venv/
+*.pt
+*.pth
+*.onnx
+__pycache__/

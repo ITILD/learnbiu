@@ -1,0 +1,6 @@
+# 数据集与训练产物缓存
+data/
+runs/
+*.pt
+*.pth
+*.onnx

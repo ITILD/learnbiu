@@ -2,5 +2,69 @@
 name = "source"
 version = "0.1.0"
 edition = "2024"
+default-run = "source"
 
 [dependencies]
+# 异步运行时（对应 Python 的 asyncio）
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+# 结构化日志（对应 Python 的 logging）
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+# 数据序列化（对应 Python 的 pydantic）
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# 每个示例模块既是库模块（被 main.rs 引用），也是独立可执行文件
+# 运行全部示例：cargo run
+# 单独运行某个示例：cargo run --bin basic_types
+[[bin]]
+name = "source"
+path = "src/main.rs"
+
+[[bin]]
+name = "basic_types"
+path = "src/basic_types.rs"
+
+[[bin]]
+name = "basic_operators"
+path = "src/basic_operators.rs"
+
+[[bin]]
+name = "control_flow"
+path = "src/control_flow.rs"
+
+[[bin]]
+name = "data_structures"
+path = "src/data_structures.rs"
+
+[[bin]]
+name = "functions"
+path = "src/functions.rs"
+
+[[bin]]
+name = "ownership"
+path = "src/ownership.rs"
+
+[[bin]]
+name = "structs_traits"
+path = "src/structs_traits.rs"
+
+[[bin]]
+name = "enums_matching"
+path = "src/enums_matching.rs"
+
+[[bin]]
+name = "error_handling"
+path = "src/error_handling.rs"
+
+[[bin]]
+name = "async_example"
+path = "src/async_example.rs"
+
+[[bin]]
+name = "logging_example"
+path = "src/logging_example.rs"
+
+[[bin]]
+name = "serde_example"
+path = "src/serde_example.rs"
