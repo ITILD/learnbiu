@@ -1,52 +1,59 @@
 ---
 layout: two-cols
 layoutClass: gap-8
+class: text-sm
 ---
 
-# 环境准备：uv 与项目创建
+# 创建项目并运行
 
-## 安装 uv
+<div class="mb-3 p-2 bg-blue-500/10 border-l-4 border-blue-500 rounded text-sm">
+<b>uv</b> 是 Python 的“管家”：自动下载 Python、创建虚拟环境、安装依赖、运行程序。
+</div>
 
-现代 Python 包管理器，替代 pip：
+## 1. 安装 uv
 
 ```bash
+# Windows
 winget install --id=astral-sh.uv -e
+
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-验证安装：
+验证：`uv --version`
+
+## 2. 创建项目
 
 ```bash
-uv --version
-```
-
-## 创建项目
-
-```bash
-# 1. 新建文件夹并用 VSCode 打开
-# 2. 终端中初始化项目
-uv init
-
-# 3. 同步依赖（下载 Python + 依赖）
+uv init hello-python
+cd hello-python
 uv sync
 ```
 
 ::right::
 
-## 配置解释器
+## 3. 第一个程序
 
-```mermaid {scale: 0.65}
-graph TD
-    A[打开 main.py] --> B[点击右下角解释器]
-    B --> C[选择 .venv/python.exe]
-    C --> D[开始编码!]
+```python
+# main.py
+print("Hello, Python!")
 ```
 
-## 调试代码
+## 4. 运行
 
-- 行号左侧点击 → 设置**断点**（红点）
-- 按 `F5` → 启动调试
-- 程序在断点处暂停，可查看变量
+```bash
+uv run main.py
+```
 
-<div class="mt-4 p-4 bg-green-500/10 border-l-4 border-green-500 rounded text-sm">
-uv 自动管理虚拟环境和依赖，无需手动配置。
+看到 `Hello, Python!` 就成功了。
+
+## 在 VSCode 里
+
+1. **文件 → 打开文件夹**，选中 `hello-python`
+2. 右下角选择解释器：`.venv` 里的 Python
+3. 打开 `main.py`，点右上角 ▶ 或按 `F5`
+4. 在下方“终端”查看输出
+
+<div class="mt-4 p-3 bg-emerald-500/10 border-l-4 border-emerald-500 rounded text-sm">
+uv 会自动处理 Python 版本和虚拟环境，初学者不用手动配 PATH，也不容易把环境装乱。
 </div>

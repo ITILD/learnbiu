@@ -1,0 +1,7 @@
+# RTSP 测试源（公网实测可用）
+# 注意：本机 UDP 被阻断，代码里强制 RTSP over TCP；公网源首帧约需 8~15 秒。
+streams:
+  - id: rtsp_lake_live
+    name: "湖景直播 720p"
+    url: "rtsp://stream.strba.sk:1935/strba/VYHLAD_JAZERO.stream"
+    protocol: rtsp

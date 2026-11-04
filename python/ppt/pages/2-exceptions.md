@@ -1,58 +1,54 @@
 ---
 layout: two-cols
 layoutClass: gap-8
+class: text-sm
 ---
 
-# 异常处理
+# 异常处理：出错怎么办
 
-## try / except 结构
+<div class="mb-3 p-2 bg-blue-500/10 border-l-4 border-blue-500 rounded text-sm">
+<b>异常</b>就是程序运行时的意外。不处理，程序就会中断并打印一大段红色报错。
+</div>
+
+## try / except
 
 ```python
 try:
     num = int(input("输入数字: "))
-    result = 100 / num
-    print(f"100/{num} = {result}")
-
+    print(100 / num)
 except ValueError:
-    print("请输入有效数字！")
-
+    print("请输入有效数字")
 except ZeroDivisionError:
-    print("不能除以零！")
-
-except Exception as e:
-    print(f"未知错误: {e}")
-
+    print("不能除以零")
 else:
-    print("计算成功！")
-
+    print("计算成功")     # 没出错时执行
 finally:
-    print("处理结束")
+    print("结束")         # 无论怎样都执行
 ```
+
+`finally` 常用于关闭文件、释放资源。
+
+<div class="mt-3 p-2 bg-red-500/10 border-l-4 border-red-500 rounded text-xs">
+尽量捕获<b>具体异常</b>，少用“裸” <code>except</code>，否则会把真正的 bug 也藏起来。
+</div>
 
 ::right::
 
 ## 执行流程
 
-```mermaid {scale: 0.7}
+```mermaid {scale: 0.55}
 graph TD
-    A[try 代码块] -->|成功| B[else 代码块]
-    A -->|ValueError| C[except ValueError]
-    A -->|ZeroDivisionError| D[except ZeroDivisionError]
-    A -->|其他异常| E[except Exception]
-    B --> F[finally 代码块]
-    C --> F
-    D --> F
-    E --> F
-    F --> G[继续执行]
+    A[try] -->|成功| B[else]
+    A -->|出错| C[except]
+    B --> D[finally]
+    C --> D
+    D --> E[继续执行]
 ```
 
-## 常见异常类型
+## 常见异常
 
 | 异常 | 触发条件 |
 |------|----------|
-| `ValueError` | 类型转换失败 |
+| `ValueError` | 类型转换失败，如 `int("abc")` |
 | `ZeroDivisionError` | 除以零 |
-| `TypeError` | 类型不匹配 |
 | `KeyError` | 字典键不存在 |
-| `IndexError` | 列表索引越界 |
-| `FileNotFoundError` | 文件不存在 |
