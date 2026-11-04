@@ -1,0 +1,20 @@
+[project]
+name = "videos"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "lpp", email = "geolifestudy@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "opencv-python>=5.0.0.93",
+    "pyyaml>=6.0.3",
+]
+
+[project.scripts]
+videos = "videos:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
