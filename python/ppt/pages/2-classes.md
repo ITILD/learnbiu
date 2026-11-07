@@ -14,19 +14,23 @@ class: text-sm
 
 ```python
 class Person:
-    def __init__(self, name, age):
+    def __init__(self, name: str, age: int):
         self.name = name
         self.age = age
 
-    def introduce(self):
-        return f"我叫{self.name}，{self.age}岁"
+    def introduce(self) -> str:
+        return f"我叫{self.name}，今年{self.age}岁。"
+
+    def have_birthday(self) -> None:
+        self.age += 1       # 过生日，年龄加 1
 ```
 
 ## 创建和使用对象
 
 ```python
-p = Person("张三", 25)   # 自动调用 __init__
-print(p.introduce())     # 我叫张三，25岁
+person1 = Person("张三", 25)
+print(person1.introduce())
+# 输出：我叫张三，今年25岁。
 ```
 
 ::right::
@@ -35,12 +39,16 @@ print(p.introduce())     # 我叫张三，25岁
 
 ```python
 class Student(Person):
-    def __init__(self, name, age, sid):
-        super().__init__(name, age)   # 先按父类初始化
-        self.sid = sid
+    def __init__(self, name: str, age: int, student_id: str):
+        super().__init__(name, age)   # 调用父类构造函数
+        self.student_id = student_id
+        self.courses: list[str] = []
 
-s = Student("李四", 20, "S001")
-print(s.introduce())  # 继承自 Person → 我叫李四，20岁
+    def enroll_course(self, course_name: str):
+        self.courses.append(course_name)
+
+student1 = Student("李四", 20, "S001")
+print(student1.introduce())   # 继承自 Person
 ```
 
 ## 三个关键词
@@ -51,6 +59,6 @@ print(s.introduce())  # 继承自 Person → 我叫李四，20岁
 | `__init__` | 创建对象时自动执行的构造函数 |
 | `self` | 指“当前这个对象” |
 
-<div class="mt-3 p-2 bg-cyan-500/10 border-l-4 border-cyan-500 rounded text-xs">
-方法里的第一个参数必须写 <code>self</code>，但调用时不用传，Python 会自动把对象传进去。继承用 <code>super()</code> 调父类。
+<div class="mt-2 text-xs opacity-50">
+对应示例：source/classes.py · <code>uv run classes.py</code>
 </div>

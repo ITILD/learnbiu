@@ -16,6 +16,23 @@ pnpm exec playwright install chromium
 
 ## 📊 PPT 结构总览
 
+### 与教程源码的对应关系
+
+每页 PPT 的代码示例与 `python/source/` 中的教程源码一一对应（变量名、示例数据、输出注释保持一致），页面底部标注了对应文件和运行命令；也可用 `uv run main.py` 一次跑全部示例：
+
+| PPT 页 | 源码文件 |
+|--------|----------|
+| 2-basic-types.md | source/basic_types.py |
+| 2-basic-operators.md | source/basic_operators.py |
+| 2-control-flow.md | source/control_flow.py |
+| 2-data-structures.md | source/data_structures.py |
+| 2-functions.md | source/functions.py |
+| 2-classes.md | source/classes.py |
+| 2-exceptions.md | source/exceptions.py |
+| 2-async.md | source/async_example.py |
+| 3-logging.md | source/logging_example.py |
+| 3-pydantic.md | source/pydantic_example.py |
+
 ### 第零部分：计算机基础（2页）
 
 | 文件 | 内容 |
