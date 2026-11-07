@@ -7,7 +7,7 @@ class: text-sm
 # 异步编程：别干等
 
 <div class="mb-3 p-2 bg-blue-500/10 border-l-4 border-blue-500 rounded text-sm">
-生活类比：烧水要 5 分钟，你<b>不会盯着锅发呆</b>，而是趁这段时间去切菜。这就是异步。
+生活类比：点 3 道菜各要 1 分钟，餐厅<b>不会做完一道再做下一道</b>，而是三口锅同时开火。
 </div>
 
 ## 同步 vs 异步
@@ -28,21 +28,23 @@ class: text-sm
 
 ::right::
 
-## 代码示例
+## 代码示例（点餐上菜）
 
 ```python
 import asyncio
 
-async def cook(dish):
-    await asyncio.sleep(1)   # 模拟等待
-    print(f"{dish} 完成")
+async def order_and_serve(dish_name: str, prepare_time: int):
+    await asyncio.sleep(prepare_time)   # 模拟做菜等待
+    print(f"{dish_name} 已准备完成！")
 
-async def main():
-    await asyncio.gather(
-        cook("鱼"), cook("肉"), cook("菜")
+async def async_example():
+    await asyncio.gather(               # 三道菜同时做
+        order_and_serve("鱼香肉丝", 1),
+        order_and_serve("红烧肉", 1),
+        order_and_serve("青椒肉丝", 1),
     )
 
-asyncio.run(main())
+asyncio.run(async_example())   # 总耗时约 1 秒
 ```
 
 ## 四个关键词
@@ -51,3 +53,7 @@ asyncio.run(main())
 - `await`：等待，并把控制权让出去
 - `asyncio.gather()`：并发执行多个协程
 - `asyncio.run()`：启动顶层协程
+
+<div class="mt-2 text-xs opacity-50">
+对应示例：source/async_example.py · <code>uv run async_example.py</code>
+</div>
