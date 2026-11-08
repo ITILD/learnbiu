@@ -3,7 +3,10 @@
    ============================================================ */
 
 :root {
-  --slidev-code-padding: 8px 12px;
+  --slidev-code-padding: 8px 14px;
+  --slidev-code-font-size: 14px;
+  --slidev-code-line-height: 19px;
+  --slidev-code-margin: 6px 0;
   /* 学术风格：使用更柔和的代码背景与边框 */
   --slidev-code-background: transparent;
   --slidev-code-border: 1px solid var(--slide-border-color, #eee3);
@@ -14,7 +17,7 @@
   --page-bg: #0a0a0c;
   --text-primary: #e8e8ea;
   --text-secondary: #b4b4b8;
-  --code-bg: #16161690;
+  --code-bg: #141418f0;
   --code-border: #ffffff14;
   --iframe-bg: #0a0a0c;
   --table-border: #ffffff1f;
@@ -37,6 +40,27 @@
   --link-color: #1a1a1f;
 }
 
+/* ---- 标题与强调色：淡雅青绿 ---- */
+.light {
+  --accent: #0f766e;
+  --accent-2: #2dd4bf;
+  --heading-1: #0f2320;
+  --heading-2: #17332d;
+  --heading-3: #2f4a44;
+  --inline-code-fg: #0f766e;
+  --inline-code-bg: #0f766e14;
+}
+
+.dark {
+  --accent: #5eead4;
+  --accent-2: #2dd4bf;
+  --heading-1: #f3f7f6;
+  --heading-2: #dbe7e4;
+  --heading-3: #b8ccc7;
+  --inline-code-fg: #7dd3c8;
+  --inline-code-bg: #5eead414;
+}
+
 /* ---- 页面背景 ---- */
 .dark #slide-content {
   background-color: var(--page-bg) !important;
@@ -46,23 +70,194 @@
   background-color: var(--page-bg) !important;
 }
 
-/* ---- 学术风格排版 ---- */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600 !important;
-  letter-spacing: -0.01em !important;
+/* 明色模式下大幅减弱背景光晕，避免蓝色雾感污染正文与表格 */
+html.light .glow-layer div[class*="bg-gradient"] {
+  opacity: 0.1 !important;
+  filter: saturate(0.8) brightness(1.35);
 }
 
-h6 {
-  text-transform: initial !important;
-  font-weight: 400 !important;
-  letter-spacing: 0 !important;
+/* 表格斑马纹改为中性青灰，避免与主色冲突 */
+.slidev-layout tbody tr:nth-child(2n) {
+  background: rgba(15, 118, 110, 0.04) !important;
 }
+
+html.dark .slidev-layout tbody tr:nth-child(2n) {
+  background: rgba(94, 234, 212, 0.06) !important;
+}
+
+/* ============================================================
+   排版：紧凑节奏 + 小标题视觉层级
+   ============================================================ */
+
+/* 缩小四周留白，为正文多留约 30px 的纵向空间 */
+.slidev-layout {
+  padding: 22px 40px 20px !important;
+}
+
+/* 一级标题：更克制、更清晰 */
+.slidev-layout h1 {
+  font-size: 2rem !important;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  margin: 0 0 0.55rem !important;
+  color: var(--heading-1);
+}
+
+/* 封面 / 结束页等展示型布局保留大标题 */
+.slidev-layout.center h1,
+.slidev-layout.cover h1,
+.slidev-layout.intro h1,
+.slidev-layout.section h1,
+.slidev-layout.statement h1,
+.slidev-layout.fact h1 {
+  font-size: 2.7rem !important;
+  margin-bottom: 0.8rem !important;
+}
+
+/* 二级标题：左侧青绿短竖线，明暗都统一 */
+.slidev-layout h2 {
+  position: relative;
+  font-size: 1.45rem !important;
+  line-height: 1.5 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  margin: 1rem 0 0.45rem !important;
+  padding-left: 0.6rem !important;
+  color: var(--heading-2);
+}
+
+/* 双栏页：左右两栏的首个元素顶部对齐 */
+.slidev-layout.two-columns > .col-left > :first-child,
+.slidev-layout.two-columns > .col-right > :first-child {
+  margin-top: 0 !important;
+}
+
+/* 双栏页正文略放大，充分利用版面空间（密集页不受影响） */
+.slidev-layout.two-columns:not(.compact) > .col-left.text-sm,
+.slidev-layout.two-columns:not(.compact) > .col-right.text-sm {
+  font-size: 1.05rem;
+}
+
+.slidev-layout h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  bottom: 0.18em;
+  width: 4px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, var(--accent-2), var(--accent));
+}
+
+/* 三级标题：轻量强调，不再用纯黑粗体 */
+.slidev-layout h3 {
+  font-size: 1.02rem !important;
+  line-height: 1.5 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  margin: 0.55rem 0 0.28rem !important;
+  color: var(--heading-3);
+}
+
+.slidev-layout h4 {
+  font-size: 0.95rem !important;
+  margin: 0.45rem 0 0.2rem !important;
+  color: var(--heading-3);
+}
+
+/* 正文与列表：收紧行距和段距 */
+.slidev-layout p {
+  margin: 0.5rem 0 !important;
+  line-height: 1.6 !important;
+}
+
+.slidev-layout ul,
+.slidev-layout ol {
+  margin: 0.35rem 0 !important;
+}
+
+.slidev-layout li {
+  line-height: 1.65 !important;
+  margin: 0.15rem 0 !important;
+}
+
+.slidev-layout ul > li > p,
+.slidev-layout ol > li > p {
+  margin: 0 !important;
+}
+
+/* 表格：更紧凑，避免撑出页面 */
+.slidev-layout table {
+  font-size: 0.82rem;
+  margin: 0.35rem 0;
+}
+
+.slidev-layout th,
+.slidev-layout td {
+  padding: 4px 9px !important;
+  line-height: 1.45;
+}
+
+/* 行内代码：用强调色统一，提升明色下的可读性 */
+.slidev-layout :not(pre) > code {
+  color: var(--inline-code-fg);
+  background: var(--inline-code-bg);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.86em;
+}
+
+/* 明色下代码配色偏淡，稍微压暗提升对比度 */
+.light .slidev-code code {
+  filter: brightness(0.82) saturate(1.08);
+}
+
+/* 中等密度：内容偏多但尚未超出时使用 layoutClass: medium */
+.slidev-layout.medium h1 {
+  font-size: 1.8rem !important;
+}
+
+.slidev-layout.medium h2 {
+  font-size: 1.3rem !important;
+  margin-top: 0.65rem !important;
+}
+
+.slidev-layout.medium .slidev-code {
+  font-size: 12.5px !important;
+  line-height: 17px !important;
+  padding: 5px 11px !important;
+}
+
+/* 内容特别密集的页面：frontmatter 里追加 layoutClass: compact */
+.slidev-layout.compact h1 {
+  font-size: 1.65rem !important;
+}
+
+.slidev-layout.compact h2 {
+  font-size: 1.2rem !important;
+  margin-top: 0.55rem !important;
+  margin-bottom: 0.28rem !important;
+}
+
+.slidev-layout.compact p {
+  margin: 0.3rem 0 !important;
+}
+
+.slidev-layout.compact .slidev-code {
+  font-size: 10.5px !important;
+  line-height: 13.5px !important;
+  padding: 4px 9px !important;
+}
+
 
 /* 代码块：主题自适应 */
 .slidev-code {
   background: var(--code-bg) !important;
   border: 1px solid var(--code-border);
+  border-radius: 8px;
   backdrop-filter: blur(10px);
+  overflow-x: auto;
   font-feature-settings: "liga" 0;
 }
 

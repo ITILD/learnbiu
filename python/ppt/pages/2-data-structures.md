@@ -1,6 +1,6 @@
 ---
 layout: two-cols
-layoutClass: gap-8
+layoutClass: gap-8 compact
 class: text-sm
 ---
 

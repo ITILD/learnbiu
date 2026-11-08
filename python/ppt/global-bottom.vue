@@ -182,7 +182,7 @@ const poly3 = usePolygonPath(CONFIG.pointCounts[2])
 <template>
   <div class="relative w-full h-full">
     <!-- 背景光效容器 -->
-    <div class="absolute inset-0 z-[-10] overflow-hidden pointer-events-none transform-gpu"
+    <div class="glow-layer absolute inset-0 z-[-10] overflow-hidden pointer-events-none transform-gpu"
       :style="{ filter: `blur(70px) hue-rotate(${hue}deg)` }" aria-hidden="true">
       <!-- 第一层：主光晕 -->
       <div class="absolute inset-0 aspect-video bg-gradient-to-r from-[#18549a] to-[#12238b]" :style="{
@@ -204,7 +204,7 @@ const poly3 = usePolygonPath(CONFIG.pointCounts[2])
     </div>
 
     <!-- 页脚标识 -->
-    <footer class="absolute bottom-0 right-0 p-2 text-sm opacity-50">
+    <footer class="absolute bottom-0 right-0 px-2 py-1 text-xs opacity-40">
       ITILD
     </footer>
   </div>
@@ -221,9 +221,5 @@ div[class*="bg-gradient"] {
     opacity 2.5s ease;
 }
 
-/* 明色模式下大幅减弱光晕，避免暗色调元素污染明色背景 */
-:deep(.light) div[class*="bg-gradient"] {
-  opacity: 0.15 !important;
-  filter: saturate(0.6) brightness(1.1);
-}
+/* 明色模式的光晕强弱在 style.css 中统一覆盖（scoped 样式无法命中 html 祖先） */
 </style>
